@@ -1,19 +1,17 @@
 USE sakila;
-SELECT * FROM actor LIMIT 10;
-# Displaying First and last names from actor table
+#1a)===================
 SELECT first_name ,last_name FROM actor;
-#Adding new column Actor_Name to stor acotrs full name 
-ALTER TABLE actor
-ADD COLUMN Actor_Name  VARCHAR(50);
-DESCRIBE actor;
-#Populating Actor_Name column data by concatinating first_name and last_name column values 
-UPDATE actor SET Actor_Name = UCASE(CONCAT(first_name,' ', last_name)) ;
+#1b)===============
+SELECT UCASE(CONCAT(first_name,' ', last_name)) AS ActorName FROM actor;
+#2a)=================== 
 SELECT actor_id, first_name,last_name FROM actor
 WHERE first_name="Joe" ;
-SELECT last_name FROM acotr WHERE last_name like '%G%';
-SELECT * 
-	FROM actor 
-   WHERE INSTR(last_name, 'GEN') > 0;
+#2b)=========================
+SELECT * FROM actor WHERE last_name like '%GEN%';
+#2c)==========================
+SELECT * FROM actor WHERE last_name like '%LI%'
+ORDER BY last_name;
+
 SELECT * 
 	FROM actor 
    WHERE INSTR(last_name, 'LI') > 0;
@@ -35,8 +33,8 @@ UPDATE actor SET first_name = 'HARPO'
 WHERE first_name='`GROUCHO';
 SELECT * FROM staff LIMIT 10;
 SELECT * FROM address LIMIT 10;
-#5a)
-
+#5a)=============================
+DESCRIBE sakila.address;
 #6a)==================
 SELECT s.first_name AS FirstName,s.last_name AS LastName,a.address AS Address 
 FROM staff AS s
@@ -69,6 +67,9 @@ JOIN customer AS c
 USING(customer_id)
 GROUP BY p.customer_id;
 #7a)====================
+SELECT title FROM film 
+WHERE title LIKE 'K%' OR title LIKE 'Q%'
+AND language_id=1;
 #7b)=====================
 SELECT Actor_Name
 	FROM actor
@@ -102,15 +103,49 @@ ORDER BY frequency DESC;
 #7f)========================
 SELECT SUM(p.amount) AS total,s.store_id AS store 
 FROM payment AS p
-JOIN rental 
+JOIN staff AS s
+USING(staff_id)
+JOIN store st
+USING(store_id)
+GROUP BY st.store_id;
+#7g)===========================
+SELECT s.store_id AS store_id,ct.city AS city ,c.country AS country
+FROM store AS s
+JOIN address as a
+USING(address_id)
+JOIN city AS ct
+USING(city_id)
+JOIN country AS c
+USING(country_id);
+#7h)============================
+SELECT c.name as genere,SUM(p.amount) AS gross_revenue
+FROM category AS c
+JOIN film_category AS fc
+USING(category_id)
+JOIN inventory AS i
+USING(film_id)
+JOIN rental as r
+USING(inventory_id)
+JOIN payment AS p
 USING(rental_id)
-JOIN inventory
-USING(stroe_id)
-
-
-
-
-
+GROUP BY c.name  ORDER BY gross_revenue DESC LIMIT 5;
+#8a)======================================
+CREATE VIEW top_five_genres AS 
+SELECT c.name as genere,SUM(p.amount) AS gross_revenue
+FROM category AS c
+JOIN film_category AS fc
+USING(category_id)
+JOIN inventory AS i
+USING(film_id)
+JOIN rental as r
+USING(inventory_id)
+JOIN payment AS p
+USING(rental_id)
+GROUP BY c.name  ORDER BY gross_revenue DESC LIMIT 5;
+#8b)=================================
+SELECT * FROM top_five_genres;
+#8c)================================
+ DROP VIEW top_five_genres;
 
 
 
