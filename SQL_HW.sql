@@ -35,7 +35,69 @@ UPDATE actor SET first_name = 'HARPO'
 WHERE first_name='`GROUCHO';
 SELECT * FROM staff LIMIT 10;
 SELECT * FROM address LIMIT 10;
-#SELECT first_name,last_name,address from 
+#5a)
+
+#6a)==================
+SELECT s.first_name AS FirstName,s.last_name AS LastName,a.address AS Address 
+FROM staff AS s
+JOIN address AS a
+USING (address_id);
+#6b)==================
+SELECT concat(s.first_name,'',s.last_name) AS staff,SUM(p.amount) AS Total_Amount  
+FROM payment AS p
+JOIN staff as s
+USING(staff_id)
+WHERE payment_date LIKE '2005-08%'
+GROUP BY p.staff_id; 
+#6c)====================
+SELECT f.title as Film,count(fa.actor_id) as Actors 
+FROM film AS f
+JOIN film_actor AS fa
+USING(film_id)
+GROUP BY f.title;
+#6d)====================
+SELECT f.title AS film_name,count(t.inventory_id) AS no_of_copies
+FROM film AS f 
+JOIN inventory AS t
+USING(film_id)
+WHERE f.title='Hunchback Impossible'
+GROUP BY f.title;
+#6e)====================
+SELECT concat(c.first_name,' ',c.last_name) AS Name,SUM(P.amount) AS total_amount 
+FROM payment AS p
+JOIN customer AS c
+USING(customer_id)
+GROUP BY p.customer_id;
+#7a)====================
+#7b)=====================
+SELECT Actor_Name
+	FROM actor
+	WHERE  actor_id IN 
+	(SELECT actor_id FROM film_actor where film_id = 
+	(SELECT film_id FROM film WHERE title = 'Alone Trip'));
+#7c)=====================    
+SELECT concat(c.first_name,' ',c.last_name) as customer_name ,c.email AS email,cn.country AS country
+	FROM customer c
+	JOIN address AS A 
+		USING(address_id)
+		JOIN city AS cy
+			USING(city_id)
+			JOIN country AS cn
+				USING(country_id)
+				WHERE country='Canada';
+#7d)========================
+SELECT f.title as 'Movie_name'
+	FROM film as f
+	JOIN film_category as fc USING(film_id)
+	JOIN category as c USING(category_id)
+	WHERE c.name = 'Family';
+#7e)=============================
+
+
+
+
+
+
 
 
 
