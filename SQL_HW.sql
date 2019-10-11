@@ -92,6 +92,20 @@ SELECT f.title as 'Movie_name'
 	JOIN category as c USING(category_id)
 	WHERE c.name = 'Family';
 #7e)=============================
+SELECT f.title,COUNT(r.rental_id) AS frequency FROM rental AS r
+JOIN inventory AS i
+USING(inventory_id)
+JOIN film AS f
+USING(film_id)
+GROUP BY f.title
+ORDER BY frequency DESC;
+#7f)========================
+SELECT SUM(p.amount) AS total,s.store_id AS store 
+FROM payment AS p
+JOIN rental 
+USING(rental_id)
+JOIN inventory
+USING(stroe_id)
 
 
 
