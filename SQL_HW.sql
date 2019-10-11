@@ -11,28 +11,29 @@ SELECT * FROM actor WHERE last_name like '%GEN%';
 #2c)==========================
 SELECT * FROM actor WHERE last_name like '%LI%'
 ORDER BY last_name;
-
-SELECT * 
-	FROM actor 
-   WHERE INSTR(last_name, 'LI') > 0;
-SELECT * 
-FROM actor 
-ORDER BY last_name ASC,first_name ASC;
+#2d)=====================
 SELECT country_id,country FROM country
 WHERE country IN ('Afghanistan','Bangladesh','China');
+#3a)=====================
 ALTER TABLE actor
 ADD COLUMN description BLOB;
+#3b)==========================
 ALTER TABLE actor DROP COLUMN description;
-SELECT last_name , count(*) as NUM FROM actor GROUP BY last_name;
-SELECT last_name , count(*) as NUM FROM actor 
+#4a)====================
+SELECT last_name , count(*) as NUM 
+FROM actor 
+GROUP BY last_name;
+#4b)==========================
+SELECT last_name , count(*) as NUM 
+FROM actor 
 GROUP BY last_name
 HAVING NUM >= 2;
-UPDATE actor SET Actor_Name = 'HARPO WILLIAMS' 
-WHERE Actor_Name='`GROUCHO WILLIAMS';
+#4c)=================
+UPDATE actor SET first_name = 'HARPO'
+WHERE first_name='GROUCHO' AND last_name='WILLIAMS';
+#4d)================= 
 UPDATE actor SET first_name = 'HARPO' 
 WHERE first_name='`GROUCHO';
-SELECT * FROM staff LIMIT 10;
-SELECT * FROM address LIMIT 10;
 #5a)=============================
 DESCRIBE sakila.address;
 #6a)==================
